@@ -13,6 +13,8 @@ void setup()
 	analogWrite(2, PWM);				// LED Startwert 
 	pinMode(D3, INPUT_PULLUP);
 	pinMode(D2, INPUT_PULLUP);
+
+	pinMode(D1, OUTPUT);				//Blink LED
 	
 }
 
@@ -24,7 +26,7 @@ void loop()
 	if (Hoch == LOW) {
 
 		if (PWM < 1023, PWM++);
-		if (PWM == 1024) { PWM = 1023; }
+		if (PWM >= 1024) { PWM = 1023; blink(); }
 		Serial.print("Rauf:");
 		Serial.println(PWM);
 		analogWrite(2, PWM);
@@ -39,11 +41,23 @@ void loop()
 	if (Runter == LOW) {
 
 		if (PWM >= 1023, PWM--);
-		if (PWM <= 20) { PWM = 20; }
+		if (PWM <= 21) { PWM = 20; blink() ; }
 		Serial.print("Runter:");
 		Serial.println(PWM);
 		analogWrite(2, PWM);
 
 		delay(10);
+	}
+}
+
+void blink() {
+	
+	for (int i = 0; i < 2; i++) {
+
+		digitalWrite(D1, HIGH);
+		delay(50);
+		digitalWrite(D1, LOW);
+		delay(50);
+
 	}
 }
