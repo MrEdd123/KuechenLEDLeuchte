@@ -4,7 +4,7 @@
 
 
 #include <EEPROM.h>
-uint16_t PWM = 800;
+uint16_t PWM;
 uint8_t Hoch = 0;
 uint8_t Runter = 0;
 
@@ -20,7 +20,8 @@ void setup()
 	pinMode(D1, OUTPUT);				//Blink LED
 	digitalWrite(D1, HIGH);
 	
-	EEPROM.get(1, PWM);
+	EEPROM.get(0, PWM);
+	EEPROM.commit();
 	EEPROM.end();
 	analogWrite(D6, PWM);				// LED Startwert
 }
@@ -56,12 +57,16 @@ void loop()
 		delay(10);
 	}
 
+	// Tasten für Speicher
+
 	if (Hoch == LOW & Runter == LOW) {
-		
-		blink();
-		EEPROM.put(1, PWM);
+
+		EEPROM.begin(64);
+		EEPROM.put(0, PWM);
 		EEPROM.commit();
 		EEPROM.end();
+		blink();
+
 	}
 }
 
